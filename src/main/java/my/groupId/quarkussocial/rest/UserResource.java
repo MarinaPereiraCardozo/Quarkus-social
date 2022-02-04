@@ -16,7 +16,7 @@ public class UserResource {
 
     @POST
     @Transactional
-    public Response createUser(CreateUserResquest userRequest ){
+    public Response createUser(CreateUserResquest userRequest){
 
         User user = new User();
         user.setAge(userRequest.getAge());
@@ -26,7 +26,7 @@ public class UserResource {
 //        outros exemplos
 //        user.delete();
 //        User.count();
-//        User.delete(query:"dele from User where age < 18")
+//        User.delete(query:"delete from User where age < 18")
 
         return Response.ok(user).build();
     }
@@ -35,5 +35,36 @@ public class UserResource {
     public Response listAllUsers(){
         PanacheQuery<User> query = User.findAll();
         return Response.ok(query.list()).build();
+    }
+
+    @DELETE
+    @Transactional
+    @Path("{id}")
+    public Response deleteUser(@PathParam("id") Long id){
+
+        User user = User.findById(id);
+
+        if(user != null) {
+            user.delete();
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @PUT
+    @Transactional
+    @Path("{id}")
+    public Response putUser(@PathParam("id") Long id, CreateUserResquest userData){
+
+        User user = User.findById(id);
+
+        if(user != null) {
+            user.setAge(userData.getAge());
+            user.setName(userData.getName());
+            return Response.ok(user).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }
