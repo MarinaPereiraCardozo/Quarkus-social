@@ -82,7 +82,7 @@ public class UserResource {
         if(user != null) {
             user.setAge(userData.getAge());
             user.setName(userData.getName());
-            return Response.noContent().build();
+            return Response.status(Response.Status.OK).entity(user).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();

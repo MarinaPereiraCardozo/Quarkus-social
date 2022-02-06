@@ -1,8 +1,11 @@
 package my.groupId.quarkussocial.rest.dto;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Data
 public class CreateUserResquest {
 
     @NotBlank(message = "Name is required")
@@ -11,19 +14,4 @@ public class CreateUserResquest {
     @NotNull(message = "Age is required")
     private Integer age;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
 }
