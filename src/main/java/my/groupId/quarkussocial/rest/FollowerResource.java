@@ -4,11 +4,16 @@ import my.groupId.quarkussocial.domain.model.Follower;
 import my.groupId.quarkussocial.domain.repository.FollowerRepository;
 import my.groupId.quarkussocial.domain.repository.UserRepository;
 import my.groupId.quarkussocial.rest.dto.FollowerRequest;
+import my.groupId.quarkussocial.rest.dto.FollowerResponse;
+import my.groupId.quarkussocial.rest.dto.FollowersPerUserResponse;
+import org.jboss.resteasy.annotations.ResponseObject;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.stream.Collectors;
 
 @Path("/users/{userId}/followers")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -28,13 +33,18 @@ public class FollowerResource {
     @PUT
     @Transactional
     public Response followUser(
-            @PathParam("userId") Long userId, FollowerRequest request){
+            @PathParam("userId") Long userId, FollowerRequest followerRequest){
+
+        if(userId.equals(followerRequest.getFollowerId())){
+            return Response.status(Response.Status.CONFLICT).entity("You can't follow youself").build();
+        }
+
         var user = userRepository.findById(userId);
         if(user == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        var follower = userRepository.findById(request.getFollowerId());
+        var follower = userRepository.findById(followerRequest.getFollowerId());
 
         boolean follows = followerRepository.follows(follower, user);
 
@@ -47,5 +57,25 @@ public class FollowerResource {
         }
 
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @GET
+    public Response listFollowers(@PathParam("userId") Long userId){
+
+        var user = userRepository.findById(userId);
+        if(user == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        var list = followerRepository.findByUser(userId);
+        FollowersPerUserResponse responseObject = new FollowersPerUserResponse();
+        responseObject.setFollowersCount(list.size());
+
+        var followerList = list.stream()
+                .map(FollowerResponse::new)
+                .collect(Collectors.toList());
+
+        responseObject.setContent(followerList);
+        return Response.ok(responseObject).build();
     }
 }
