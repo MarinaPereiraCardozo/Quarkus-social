@@ -1,6 +1,5 @@
 package my.groupId.quarkussocial.rest;
 
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Sort;
 import my.groupId.quarkussocial.domain.model.Post;
 import my.groupId.quarkussocial.domain.model.User;
@@ -8,14 +7,11 @@ import my.groupId.quarkussocial.domain.repository.PostRepository;
 import my.groupId.quarkussocial.domain.repository.UserRepository;
 import my.groupId.quarkussocial.rest.dto.CreatePostResquest;
 import my.groupId.quarkussocial.rest.dto.PostResponse;
-import org.jboss.logging.annotations.Pos;
-
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("/users/{idUser}/posts")
@@ -27,7 +23,7 @@ public class PostsResource {
     private PostRepository postRepository;
 
     @Inject
-    public  PostsResource(UserRepository userRepository, PostRepository postRepository){
+    public PostsResource(UserRepository userRepository, PostRepository postRepository){
         this.userRepository = userRepository;
         this.postRepository = postRepository;
     }
