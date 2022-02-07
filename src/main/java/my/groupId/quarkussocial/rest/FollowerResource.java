@@ -6,6 +6,7 @@ import my.groupId.quarkussocial.domain.repository.UserRepository;
 import my.groupId.quarkussocial.rest.dto.FollowerRequest;
 import my.groupId.quarkussocial.rest.dto.FollowerResponse;
 import my.groupId.quarkussocial.rest.dto.FollowersPerUserResponse;
+import org.jboss.resteasy.annotations.Query;
 import org.jboss.resteasy.annotations.ResponseObject;
 
 import javax.inject.Inject;
@@ -77,5 +78,20 @@ public class FollowerResource {
 
         responseObject.setContent(followerList);
         return Response.ok(responseObject).build();
+    }
+
+    @DELETE
+    @Transactional
+    public Response unfollowUser(
+            @PathParam("userId") Long userId,
+            @QueryParam("followerId") Long followerId){
+        var user = userRepository.findById(userId);
+        if(user == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        followerRepository.deleteByFollowerAndUser(followerId, userId);
+
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }
