@@ -3,9 +3,8 @@ package my.groupId.quarkussocial.rest;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import my.groupId.quarkussocial.rest.dto.CreateUserResquest;
+import my.groupId.quarkussocial.rest.dto.CreateUserRequest;
 import my.groupId.quarkussocial.rest.dto.ResponseError;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 
@@ -28,7 +27,7 @@ class UserResourceTest {
     @DisplayName("Should create an user successfully")
     @Order(1)
     public void createUserTest(){
-        var user = new CreateUserResquest();
+        var user = new CreateUserRequest();
         user.setName("Fulano");
         user.setAge(30);
 
@@ -49,7 +48,7 @@ class UserResourceTest {
     @DisplayName("Should return error when json is not valid")
     @Order(2)
     public void createUserValidationErrorTest(){
-        var user = new CreateUserResquest();
+        var user = new CreateUserRequest();
         user.setName(null);
         user.setAge(null);
 

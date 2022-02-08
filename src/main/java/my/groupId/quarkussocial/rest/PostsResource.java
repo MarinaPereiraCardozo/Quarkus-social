@@ -6,7 +6,7 @@ import my.groupId.quarkussocial.domain.model.User;
 import my.groupId.quarkussocial.domain.repository.FollowerRepository;
 import my.groupId.quarkussocial.domain.repository.PostRepository;
 import my.groupId.quarkussocial.domain.repository.UserRepository;
-import my.groupId.quarkussocial.rest.dto.CreatePostResquest;
+import my.groupId.quarkussocial.rest.dto.CreatePostRequest;
 import my.groupId.quarkussocial.rest.dto.PostResponse;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -33,7 +33,7 @@ public class PostsResource {
 
     @POST
     @Transactional
-    public Response savePost(@PathParam("idUser") Long idUser, CreatePostResquest postResquest) {
+    public Response savePost(@PathParam("idUser") Long idUser, CreatePostRequest postResquest) {
         User user = userRepository.findById((idUser));
 
         if(user == null){

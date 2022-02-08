@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CreateUserResquest {
+public class CreateUserRequest {
 
     @NotBlank(message = "Name is required")
     private String name;

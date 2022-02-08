@@ -3,7 +3,7 @@ package my.groupId.quarkussocial.rest;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import my.groupId.quarkussocial.domain.model.User;
 import my.groupId.quarkussocial.domain.repository.UserRepository;
-import my.groupId.quarkussocial.rest.dto.CreateUserResquest;
+import my.groupId.quarkussocial.rest.dto.CreateUserRequest;
 import my.groupId.quarkussocial.rest.dto.ResponseError;
 
 import javax.inject.Inject;
@@ -31,9 +31,9 @@ public class UserResource {
 
     @POST
     @Transactional
-    public Response createUser(CreateUserResquest userRequest){
+    public Response createUser(CreateUserRequest userRequest){
 
-        Set<ConstraintViolation<CreateUserResquest>> violations = validator.validate(userRequest);
+        Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
         if(!violations.isEmpty()){
             return ResponseError.createFromValidation(violations).withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
         }
@@ -75,7 +75,7 @@ public class UserResource {
     @PUT
     @Transactional
     @Path("{id}")
-    public Response putUser(@PathParam("id") Long id, CreateUserResquest userData){
+    public Response putUser(@PathParam("id") Long id, CreateUserRequest userData){
 
         User user = repository.findById(id);
 
