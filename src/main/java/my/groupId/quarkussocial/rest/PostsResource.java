@@ -9,6 +9,11 @@ import my.groupId.quarkussocial.rest.dto.CreatePostRequest;
 import my.groupId.quarkussocial.rest.dto.PostResponse;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Sort;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -39,6 +44,13 @@ public class PostsResource {
 
     @POST
     @Transactional
+    @Operation(summary = "Create a new post")
+    @APIResponse(
+            responseCode = "201",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     public Response savePost(
             @PathParam("userId") Long userId, CreatePostRequest request){
 
@@ -57,6 +69,13 @@ public class PostsResource {
     }
 
     @GET
+    @Operation(summary = "List all posts from an user")
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     public Response listPosts(
             @PathParam("userId") Long userId,
             @HeaderParam("followerId") Long followerId ){

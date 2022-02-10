@@ -5,6 +5,10 @@ import my.groupId.quarkussocial.domain.model.User;
 import my.groupId.quarkussocial.domain.repository.UserRepository;
 import my.groupId.quarkussocial.rest.dto.CreateUserRequest;
 import my.groupId.quarkussocial.rest.dto.ResponseError;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -31,6 +35,13 @@ public class UserResource {
 
     @POST
     @Transactional
+    @Operation(summary = "Create a new user")
+    @APIResponse(
+            responseCode = "201",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     public Response createUser(CreateUserRequest userRequest){
 
         Set<ConstraintViolation<CreateUserRequest>> violations = validator.validate(userRequest);
@@ -52,6 +63,13 @@ public class UserResource {
     }
 
     @GET
+    @Operation(summary = "List all users")
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     public Response listAllUsers(){
         PanacheQuery<User> query = repository.findAll();
         return Response.ok(query.list()).build();
@@ -59,6 +77,13 @@ public class UserResource {
 
     @DELETE
     @Transactional
+    @Operation(summary = "Delete an user")
+    @APIResponse(
+            responseCode = "204",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     @Path("{id}")
     public Response deleteUser(@PathParam("id") Long id){
 
@@ -74,6 +99,13 @@ public class UserResource {
 
     @PUT
     @Transactional
+    @Operation(summary = "Update an user")
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     @Path("{id}")
     public Response putUser(@PathParam("id") Long id, CreateUserRequest userData){
 

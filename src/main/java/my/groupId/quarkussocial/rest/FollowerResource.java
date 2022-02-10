@@ -1,11 +1,16 @@
 package my.groupId.quarkussocial.rest;
 
 import my.groupId.quarkussocial.domain.model.Follower;
+import my.groupId.quarkussocial.domain.model.User;
 import my.groupId.quarkussocial.domain.repository.FollowerRepository;
 import my.groupId.quarkussocial.domain.repository.UserRepository;
 import my.groupId.quarkussocial.rest.dto.FollowerRequest;
 import my.groupId.quarkussocial.rest.dto.FollowerResponse;
 import my.groupId.quarkussocial.rest.dto.FollowersPerUserResponse;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.resteasy.annotations.Query;
 import org.jboss.resteasy.annotations.ResponseObject;
 
@@ -33,6 +38,14 @@ public class FollowerResource {
 
     @PUT
     @Transactional
+    @Operation(summary = "Follow another user")
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
+    @Path("{id}")
     public Response followUser(
             @PathParam("userId") Long userId, FollowerRequest followerRequest){
 
@@ -61,6 +74,13 @@ public class FollowerResource {
     }
 
     @GET
+    @Operation(summary = "List all followers from an user")
+    @APIResponse(
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     public Response listFollowers(@PathParam("userId") Long userId){
 
         var user = userRepository.findById(userId);
@@ -82,6 +102,13 @@ public class FollowerResource {
 
     @DELETE
     @Transactional
+    @Operation(summary = "Unfollow an user")
+    @APIResponse(
+            responseCode = "204",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = User.class)))
     public Response unfollowUser(
             @PathParam("userId") Long userId,
             @QueryParam("followerId") Long followerId){
