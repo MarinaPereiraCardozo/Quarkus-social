@@ -7,11 +7,9 @@ import my.groupId.quarkussocial.rest.dto.CreateUserRequest;
 import my.groupId.quarkussocial.rest.dto.ResponseError;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
-
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;

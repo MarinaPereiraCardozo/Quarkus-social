@@ -83,9 +83,9 @@ class PostsResourceTest {
                 .contentType(ContentType.JSON)
                 .body(postRequest)
                 .pathParam("userId", userId)
-                .when()
+        .when()
                 .post()
-                .then()
+        .then()
                 .statusCode(201);
     }
 
@@ -156,9 +156,9 @@ class PostsResourceTest {
         given()
                 .pathParam("userId", userId)
                 .header("followerId", userNotFollowerId)
-                .when()
+        .when()
                 .get()
-                .then()
+        .then()
                 .statusCode(403)
                 .body(Matchers.is("You can't see these posts"));
     }
